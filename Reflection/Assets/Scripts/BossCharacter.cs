@@ -8,7 +8,6 @@ public class BossCharacter : MonoBehaviour
 	public Color GotHitColor;
 
 	private SpriteRenderer sprite;
-	private Bullet bullet;
 	private Rigidbody2D rb2d;
 
 	private float HP = 10;
@@ -48,7 +47,6 @@ public class BossCharacter : MonoBehaviour
 			float x = Random.Range(0, movementWidth) - (movementWidth/2);
 			float y = Random.Range(0, movementHeight) - (movementHeight/2);
 			goalPosition = new Vector3(x, y, 0);
-			Debug.Log("Goal Position: " + goalPosition);
 			isMoving = true;
 		}
 
@@ -63,7 +61,6 @@ public class BossCharacter : MonoBehaviour
 			}
 		}
 
-		SetVelocity();
 		SetRotation();
 	}
 
@@ -71,9 +68,6 @@ public class BossCharacter : MonoBehaviour
 	{
 		return vector1.x > vector2.x - dist && vector1.x < vector2.x + dist &&
 			vector1.y > vector2.y - dist && vector1.y < vector2.y + dist;
-
-
-
 	}
 
 	// Update is called once per frame
@@ -116,10 +110,6 @@ public class BossCharacter : MonoBehaviour
 
 	private void SetVelocity()
 	{
-
-		//rb2d.velocity = movementInput.normalized * Movespeed;
-	
-		
 	
 	}
 
@@ -146,7 +136,6 @@ public class BossCharacter : MonoBehaviour
 			}
 
 			bullet.SetHasHitAlready(true);
-			this.bullet = bullet;
 		}
 	}
 
