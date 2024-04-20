@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Bullet : MonoBehaviour
+public class BossBullet : MonoBehaviour
 {
-	public float bulletVelocity = 18;
+	public float bulletVelocity = 25;
 
 	private Rigidbody2D rb2d;
 	private bool hasHitAlready = false;

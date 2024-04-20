@@ -7,6 +7,10 @@ public class CharacterShooting : MonoBehaviour
 	public Transform firePoint;
 	public GameObject bulletPrefab;
 
+	private bool hasShot;
+	private float shootTime = 5.0f;
+	private float shootTimer = 0;
+
 	private void Start()
 	{
 		//rb2d = GetComponent<Rigidbody2D>();
@@ -15,8 +19,19 @@ public class CharacterShooting : MonoBehaviour
 	// Update is called once per frame
 	void Update()
 	{
-		if (Input.GetKeyDown(KeyCode.Mouse0))
+		if (hasShot)
 		{
+			shootTimer += Time.deltaTime;
+			if(shootTimer > shootTime)
+			{
+				shootTimer = 0;
+				hasShot = false;
+			}
+		}
+
+		if (Input.GetKeyDown(KeyCode.Mouse0) && !hasShot)
+		{
+			hasShot = true;
 			Shoot();
 		}
 	}
