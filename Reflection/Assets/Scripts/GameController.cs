@@ -34,6 +34,8 @@ public class GameController : MonoBehaviour
 
 	void Start()
 	{
+		Cursor.visible = false;
+
 		audioManager = FindObjectOfType<AudioManager>();
 		for(int i = 0; i < BossCharacters.Count; i++)
 		{
@@ -159,6 +161,9 @@ public class GameController : MonoBehaviour
 		{
 			Doors[1].SetActive(false);
 			defeatedBosses[0] = true;
+
+			playerHealthUI.ResetHearts();
+			Player.SetAlive();
 		}
 
 		int levelNum = 0;
@@ -200,6 +205,8 @@ public class GameController : MonoBehaviour
 				else
 				{
 					Doors[levelNum].gameObject.SetActive(false);
+					playerHealthUI.ResetHearts();
+					Player.SetAlive();
 				}
 				
 			}
