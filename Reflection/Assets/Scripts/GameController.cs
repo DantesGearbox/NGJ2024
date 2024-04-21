@@ -58,6 +58,10 @@ public class GameController : MonoBehaviour
 
 			if (allDone)
 			{
+				BetweenScenes.instance.IsShootingEnabled = false;
+				BetweenScenes.instance.IsDashingEnabled = false;
+				BetweenScenes.instance.IsTrippleShotEnabled = false;
+
 				ResetGame();
 			}
 		}

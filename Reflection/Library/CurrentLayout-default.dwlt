@@ -113,10 +113,10 @@ MonoBehaviour:
     y: 30
     width: 1536
     height: 731
-  m_MinSize: {x: 708, y: 492}
-  m_MaxSize: {x: 18003, y: 14042}
+  m_MinSize: {x: 709, y: 492}
+  m_MaxSize: {x: 18004, y: 14042}
   vertical: 0
-  controlID: 91322
+  controlID: 87941
 --- !u!114 &6
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -141,7 +141,7 @@ MonoBehaviour:
   m_MinSize: {x: 201, y: 442}
   m_MaxSize: {x: 4001, y: 8042}
   vertical: 1
-  controlID: 91281
+  controlID: 87914
 --- !u!114 &7
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -219,7 +219,7 @@ MonoBehaviour:
   m_MinSize: {x: 232, y: 492}
   m_MaxSize: {x: 10002, y: 14042}
   vertical: 1
-  controlID: 91231
+  controlID: 87887
 --- !u!114 &10
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -239,8 +239,8 @@ MonoBehaviour:
     y: 0
     width: 399
     height: 342
-  m_MinSize: {x: 200, y: 200}
-  m_MaxSize: {x: 4000, y: 4000}
+  m_MinSize: {x: 202, y: 221}
+  m_MaxSize: {x: 4002, y: 4021}
   m_ActualView: {fileID: 16}
   m_Panes:
   - {fileID: 16}
@@ -291,8 +291,8 @@ MonoBehaviour:
     y: 0
     width: 425
     height: 731
-  m_MinSize: {x: 275, y: 50}
-  m_MaxSize: {x: 4000, y: 4000}
+  m_MinSize: {x: 276, y: 71}
+  m_MaxSize: {x: 4001, y: 4021}
   m_ActualView: {fileID: 18}
   m_Panes:
   - {fileID: 18}
@@ -336,7 +336,7 @@ MonoBehaviour:
   m_TextureFilterMode: 0
   m_TextureHideFlags: 61
   m_RenderIMGUI: 1
-  m_MaximizeOnPlay: 0
+  m_MaximizeOnPlay: 1
   m_UseMipMap: 0
   m_VSyncEnabled: 0
   m_Gizmos: 0
@@ -426,9 +426,9 @@ MonoBehaviour:
   m_PlayAudio: 0
   m_AudioPlay: 0
   m_Position:
-    m_Target: {x: -7.6993165, y: 17.516613, z: 24465.27}
+    m_Target: {x: -21.180779, y: 34.295567, z: -26.410833}
     speed: 2
-    m_Value: {x: -7.6993165, y: 17.516613, z: 24465.27}
+    m_Value: {x: -20.024668, y: 33.515915, z: -26.225298}
   m_RenderMode: 0
   m_CameraMode:
     drawMode: 0
@@ -478,9 +478,9 @@ MonoBehaviour:
     speed: 2
     m_Value: {x: 0, y: 0, z: 0, w: 1}
   m_Size:
-    m_Target: 28.01987
+    m_Target: 43.038708
     speed: 2
-    m_Value: 28.01987
+    m_Value: 41.185368
   m_Ortho:
     m_Target: 1
     speed: 2
@@ -560,9 +560,9 @@ MonoBehaviour:
   m_SceneHierarchy:
     m_TreeViewState:
       scrollPos: {x: 0, y: 0}
-      m_SelectedIDs: ea6e0300
-      m_LastClickedID: 225002
-      m_ExpandedIDs: 22b7fcff34b7fcffe6b7fcffbab8fcffccb8fcff7eb9fcff682efdff7c2efdff2e2ffdff3c82feff1aa1ffff60fbffff243c00003c3c00007a3d0000be3d0000d83d0000766e0300ae6e0300d26e03009e6f0300f26f0300267003002e70030046700300
+      m_SelectedIDs: 
+      m_LastClickedID: 0
+      m_ExpandedIDs: 6095faff7495faff2a96faff4698faff5a98faff0c99faffd8a0faffeca0faffeea0fafff6a4faff08a5faffcaa5faff72b8faff84b8faff36b9faffb85affff145bffff185fffffbc6fffffe6a5ffff60fbffff3a3c0000683c0000923c0000983c00003a3d0000ea3d00001e3e0000263e0000c63e0000143f00002e3f000070ed030002ee0300a2f0030010f103002cf10300443504001e370400da380400
       m_RenameOverlay:
         m_UserAcceptedRename: 0
         m_Name: 
@@ -625,7 +625,7 @@ MonoBehaviour:
     m_SkipHidden: 0
     m_SearchArea: 1
     m_Folders:
-    - Assets/Prefabs
+    - Assets/Scripts
   m_ViewMode: 0
   m_StartGridSize: 16
   m_LastFolders: []
@@ -637,7 +637,7 @@ MonoBehaviour:
     scrollPos: {x: 0, y: 0}
     m_SelectedIDs: 743f0000
     m_LastClickedID: 16244
-    m_ExpandedIDs: 8281feffffffffff00000000843e0000863e0000883e00008a3e00008c3e0000e8be0200
+    m_ExpandedIDs: ffffffff00000000f63f0000f83f0000fa3f0000fc3f0000fe3f0000004000003c400000
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -662,10 +662,10 @@ MonoBehaviour:
       m_Icon: {fileID: 0}
       m_ResourceFile: 
   m_AssetTreeState:
-    scrollPos: {x: 0, y: 308}
+    scrollPos: {x: 0, y: 321}
     m_SelectedIDs: 
     m_LastClickedID: 0
-    m_ExpandedIDs: 8281feffffffffff00000000843e0000863e0000883e00008a3e00008c3e0000e8be0200
+    m_ExpandedIDs: ffffffff00000000f63f0000f83f0000fa3f0000fc3f0000fe3f0000004000003c400000
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -758,4 +758,4 @@ MonoBehaviour:
     m_PrefName: Preview_InspectorPreview
   m_PreviewWindow: {fileID: 0}
   m_LastInspectedObjectInstanceID: -1
-  m_LastVerticalScrollValue: 288
+  m_LastVerticalScrollValue: 0
