@@ -4,41 +4,105 @@ using UnityEngine;
 
 public class CharacterShooting : MonoBehaviour
 {
-	public Transform firePoint;
+	public Color DefaultColor;
+	public Color GotHitColor;
+
+	public bool IsShootingEnabled = false;
+	public bool IsTrippleShotEnabled = false;
+
+	public Transform firePoint1;
+	public Transform firePoint2;
+	public Transform firePoint3;
 	public GameObject bulletPrefab;
 
-	private bool hasShot;
-	private float shootTime = 5.0f;
+	private PlayerBulletUI playerBulletUI;
+	private SpriteRenderer sprite;
+	private CharacterController player;
+	private CameraController cameraController;
+	private AudioManager audioManager;
+	private ParticleEffectManager particleEffectManager;
+
+	private bool hasShotAlready;
+	private float shootTime = 3.0f;
 	private float shootTimer = 0;
 
 	private void Start()
 	{
 		//rb2d = GetComponent<Rigidbody2D>();
+		sprite = GetComponent<SpriteRenderer>();
+		playerBulletUI = FindObjectOfType<PlayerBulletUI>();
+		player = GetComponent<CharacterController>();
+		cameraController = FindObjectOfType<CameraController>();
+		audioManager = FindObjectOfType<AudioManager>();
+		particleEffectManager = FindObjectOfType<ParticleEffectManager>();
 	}
 
 	// Update is called once per frame
 	void Update()
 	{
-		if (hasShot)
+		if (hasShotAlready)
 		{
+			if (!player.GetGotHit() && IsShootingEnabled)
+			{
+				sprite.color = Color.Lerp(GotHitColor, DefaultColor, shootTimer / shootTime);
+			}
 			shootTimer += Time.deltaTime;
+
+			if(shootTimer > 2.9f)
+			{
+				sprite.color = GotHitColor;
+			}
+
 			if(shootTimer > shootTime)
 			{
 				shootTimer = 0;
-				hasShot = false;
+				hasShotAlready = false;
+				if (IsShootingEnabled)
+				{
+					playerBulletUI.IncreasePlayerBullets();
+					sprite.color = DefaultColor;
+					audioManager.Play("Ping");
+
+					particleEffectManager.SpawnSqaureParticles(DefaultColor, transform.position, 4, 7, 1.0f);
+				}
 			}
 		}
 
-		if (Input.GetKeyDown(KeyCode.Mouse0) && !hasShot)
+		if (Input.GetKeyDown(KeyCode.Mouse0) && !hasShotAlready && IsShootingEnabled)
 		{
-			hasShot = true;
+			hasShotAlready = true;
+			playerBulletUI.DecreasePlayerBullets();
 			Shoot();
 		}
 	}
 
 	private void Shoot()
 	{
-		GameObject bullet = Instantiate(bulletPrefab, firePoint.position, firePoint.rotation);
-		bullet.transform.rotation = transform.rotation;
+		if (!IsTrippleShotEnabled && IsShootingEnabled)
+		{
+			GameObject bullet = Instantiate(bulletPrefab, firePoint1.position, firePoint1.rotation);
+			bullet.transform.rotation = transform.rotation;
+
+			audioManager.Play("Shoot");
+			cameraController.AddTrauma();
+		}
+
+		if (IsTrippleShotEnabled)
+		{
+			GameObject bullet1 = Instantiate(bulletPrefab, firePoint1.position, firePoint1.rotation);
+
+			var rotation2 = Quaternion.Euler(firePoint2.rotation.eulerAngles + new Vector3(0, 0, -15));
+			GameObject bullet2 = Instantiate(bulletPrefab, firePoint2.position, rotation2);
+
+			var rotation3 = Quaternion.Euler(firePoint3.rotation.eulerAngles + new Vector3(0, 0, 15));
+			GameObject bullet3 = Instantiate(bulletPrefab, firePoint3.position, rotation3);
+
+			cameraController.AddTrauma();
+			cameraController.AddTrauma();
+
+			audioManager.Play("ShootBig");
+
+			bullet1.transform.rotation = transform.rotation;
+		}
 	}
 }

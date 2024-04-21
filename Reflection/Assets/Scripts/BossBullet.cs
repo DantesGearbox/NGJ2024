@@ -4,9 +4,11 @@ using UnityEngine;
 
 public class BossBullet : MonoBehaviour
 {
-	public float bulletVelocity = 25;
+	private float bulletVelocity = 20;
 
 	private Rigidbody2D rb2d;
+	private AudioManager audioManager;
+
 	private bool hasHitAlready = false;
 	private float damage = 1;
 
@@ -15,6 +17,8 @@ public class BossBullet : MonoBehaviour
 	{
 		rb2d = GetComponent<Rigidbody2D>();
 		rb2d.velocity = Quaternion.AngleAxis(transform.rotation.eulerAngles.z, Vector3.forward) * new Vector3(0, bulletVelocity, 0);
+
+		audioManager = FindObjectOfType<AudioManager>();
 	}
 
 	public bool GetHasHitAlready()
@@ -36,6 +40,7 @@ public class BossBullet : MonoBehaviour
 	{
 		if (collision.transform.tag == "BossBullet" || collision.transform.tag == "Walls" || collision.transform.tag == "Bullet")
 		{
+			audioManager.Play("Pep");
 			hasHitAlready = true;
 		}
 	}
