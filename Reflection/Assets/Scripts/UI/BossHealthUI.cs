@@ -23,20 +23,19 @@ public class BossHealthUI : MonoBehaviour
 
     public void DecreaseBossHealth()
     {
-        if(amountOfHearts > 0)
-		{
-            BossHearts[amountOfHearts - 1].GetComponent<Image>().enabled = false;
-            amountOfHearts -= 1;
-		}
+  //      if(amountOfHearts > 0)
+		//{
+  //          BossHearts[amountOfHearts - 1].GetComponent<Image>().enabled = false;
+  //          amountOfHearts -= 1;
+		//}
     }
 
     public void ResetHearts()
     {
-        amountOfHearts = maxHearts;
-        for (int i = 0; i < maxHearts; i++)
-        {
-            BossHearts[i].GetComponent<Image>().enabled = true;
-        }
-
+        //amountOfHearts = maxHearts;
+        //for (int i = 0; i < maxHearts; i++)
+        //{
+        //    BossHearts[i].GetComponent<Image>().enabled = true;
+        //}
     }
 }

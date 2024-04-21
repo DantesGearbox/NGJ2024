@@ -26,7 +26,7 @@ public class ParticleEffectManager : MonoBehaviour
 
 	public void SpawnSqaureParticles(Color color, Vector3 position)
 	{
-		int amount = Random.Range(4, 8);
+		int amount = Random.Range(6, 10);
 
 		for(int i = 0; i < amount; i++)
 		{

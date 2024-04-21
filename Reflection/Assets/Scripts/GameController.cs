@@ -1,28 +1,21 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class GameController : MonoBehaviour
 {
-	public CharacterController player;
-	public CharacterShooting playerShooting;
+	public CharacterController Player;
+	public CharacterShooting PlayerShooting;
 
-	public BossCharacter BossCharacter1;
-	public BossCharacter BossCharacter2;
-	public BossCharacter BossCharacter3;
+	public List<BossCharacter> BossCharacters;
 
 	public CameraController CameraController;
 
-	public GameObject Door0;
-	public GameObject Door1;
-	public GameObject Door2;
-	public GameObject Door3;
+	public List<GameObject> Doors;
 
-	public Transform spawnPoint1;
-	public Transform spawnPoint2;
-	public Transform spawnPoint3;
-	public Transform spawnPoint4;
+	public List<Transform> SpawnPoints;
 
 	public Text text1;
 	public Text text2;
@@ -37,95 +30,56 @@ public class GameController : MonoBehaviour
 
 	private AudioManager audioManager;
 
-	private bool defeatedBoss1 = false;
-	private bool defeatedBoss2 = false;
-	private bool defeatedBoss3 = false;
+	public List<bool> defeatedBosses;
 
-	// Start is called before the first frame update
 	void Start()
 	{
 		audioManager = FindObjectOfType<AudioManager>();
+		for(int i = 0; i < BossCharacters.Count; i++)
+		{
+			defeatedBosses.Add(false);
+		}
 	}
 
-	// Update is called once per frame
 	void Update()
 	{
-		if (Input.GetKeyDown(KeyCode.R) && defeatedBoss3)
+		if (Input.GetKeyDown(KeyCode.R))
 		{
-			ResetGame();
+			bool allDone = true;
+			for (int i = 0; i < defeatedBosses.Count; i++)
+			{
+				if (!defeatedBosses[i])
+				{
+					allDone = false;
+				}
+			}
+
+			if (allDone)
+			{
+				ResetGame();
+			}
 		}
 	}
 
 	private void ResetGame()
 	{
-		defeatedBoss1 = false;
-		defeatedBoss2 = false;
-		defeatedBoss3 = false;
-
-		player.transform.position = spawnPoint1.position + new Vector3(0, -3.5f, 10);
-
-		BossCharacter1.transform.position = spawnPoint2.position + new Vector3(0, 0, 10);
-		BossCharacter1.transform.rotation = Quaternion.Euler(0, 0, 180);
-		BossCharacter1.gameObject.SetActive(false);
-
-		BossCharacter2.transform.position = spawnPoint3.position + new Vector3(0, 0, 10);
-		BossCharacter2.transform.rotation = Quaternion.Euler(0, 0, 180);
-		BossCharacter2.gameObject.SetActive(false);
-
-		BossCharacter3.transform.position = spawnPoint4.position + new Vector3(0, 0, 10);
-		BossCharacter3.transform.rotation = Quaternion.Euler(0, 0, 180);
-		BossCharacter3.gameObject.SetActive(false);
-
-		bossHealthUI.DecreaseBossHealth();
-		bossHealthUI.DecreaseBossHealth();
-		bossHealthUI.DecreaseBossHealth();
-		playerHealthUI.ResetHearts();
-		playerBulletUI.DecreasePlayerBullets();
-
-		player.SetVisible();
-		player.SetAlive();
-
-		text1.text = "";
-		text2.text = "";
-		text3.text = "";
-		text4.text = "";
-
-		Door0.SetActive(true);
-		Door1.SetActive(true);
-		Door2.SetActive(true);
-		Door3.SetActive(true);
-
-		var bullets = FindObjectsOfType<Bullet>();
-		foreach (var item in bullets)
-		{
-			Destroy(item.gameObject);
-		}
-
-		var bossBullets = FindObjectsOfType<BossBullet>();
-		foreach (var item in bossBullets)
-		{
-			Destroy(item.gameObject);
-		}
-
-		Instantiate(PowerUp0);
-
-		playerShooting.IsShootingEnabled = false;
-		player.IsDashingEnabled = false;
-		playerShooting.IsTrippleShotEnabled = false;
+		StartCoroutine(LoadYourAsyncScene());
 	}
 
 	public void OnUpgrade(int number)
 	{
 		if(number == 0)
 		{
-			Door0.SetActive(false);
-			playerShooting.IsShootingEnabled = true;
-			player.StartUpgrading();
+			Doors[0].gameObject.SetActive(false);
+			PlayerShooting.IsShootingEnabled = true;
+			BetweenScenes.instance.IsShootingEnabled = true;
+
+			Player.StartUpgrading();
 			text1.text = "LEFT CLICK";
 
 			playerBulletUI.IncreasePlayerBullets();
 			playerHealthUI.ResetHearts();
-			player.SetAlive();
+			Player.SetAlive();
 
 			audioManager.Play("DoorOpen");
 			audioManager.Play("PowerUp");
@@ -133,13 +87,14 @@ public class GameController : MonoBehaviour
 
 		if(number == 1)
 		{
-			Door1.SetActive(false);
-			player.IsDashingEnabled = true;
-			player.StartUpgrading();
+			Doors[4].gameObject.SetActive(false);
+			Player.IsDashingEnabled = true;
+			BetweenScenes.instance.IsDashingEnabled = true;
+			Player.StartUpgrading();
 			text2.text = "SPACE BAR";
 
 			playerHealthUI.ResetHearts();
-			player.SetAlive();
+			Player.SetAlive();
 
 			audioManager.Play("DoorOpen");
 			audioManager.Play("PowerUp");
@@ -147,111 +102,107 @@ public class GameController : MonoBehaviour
 
 		if (number == 2)
 		{
-			Door2.SetActive(false);
-			playerShooting.IsTrippleShotEnabled = true;
-			player.StartUpgrading();
-			text3.text = "LEFT CLICK";
+			Doors[6].gameObject.SetActive(false);
+			PlayerShooting.IsTrippleShotEnabled = true;
+			BetweenScenes.instance.IsTrippleShotEnabled = true;
+			Player.StartUpgrading();
+			text3.text = "TRIPLE SHOT";
 
 			playerHealthUI.ResetHearts();
-			player.SetAlive();
+			Player.SetAlive();
 
 			audioManager.Play("DoorOpen");
 			audioManager.Play("PowerUp");
 		}
 	}
 
-	public void OnEnterBossRoom1()
+	public void OnEnterBossRoom(int num)
 	{
-		if (!defeatedBoss1 && !BossCharacter1.gameObject.activeInHierarchy)
+		for(int i = 0; i < BossCharacters.Count; i++)
 		{
-			BossCharacter1.gameObject.SetActive(true);
-			BossCharacter1.Spawn();
-			bossHealthUI.ResetHearts();
+			if(BossCharacters[i].LevelNumber == num)
+			{
+				if(!defeatedBosses[i] && !BossCharacters[i].gameObject.activeInHierarchy)
+				{
+					BossCharacters[i].gameObject.SetActive(true);
+					BossCharacters[i].Spawn();
+					bossHealthUI.ResetHearts();
+				}
+			}
 		}
 	}
 
-	public void OnEnterBossRoom2()
-	{
-		if (!defeatedBoss2 && !BossCharacter2.gameObject.activeInHierarchy)
-		{
-			BossCharacter2.gameObject.SetActive(true);
-			BossCharacter2.Spawn();
-			bossHealthUI.ResetHearts();
-		}
-	}
 
-	public void OnEnterBossRoom3()
+	IEnumerator LoadYourAsyncScene()
 	{
-		if (!defeatedBoss3 && !BossCharacter3.gameObject.activeInHierarchy)
+		AsyncOperation asyncLoad = SceneManager.LoadSceneAsync("BossRoom");
+
+		while (!asyncLoad.isDone)
 		{
-			BossCharacter3.gameObject.SetActive(true);
-			BossCharacter3.Spawn();
-			bossHealthUI.ResetHearts();
+			yield return null;
 		}
 	}
 
 	public void OnPlayerDeath()
 	{
-		if (BossCharacter1.gameObject.activeSelf)
-		{
-			player.transform.position = spawnPoint1.position + new Vector3(0,0,10);
-		}
-		if (BossCharacter2.gameObject.activeSelf)
-		{
-			player.transform.position = spawnPoint2.position + new Vector3(0, 0, 10);
-		}
-		if (BossCharacter3.gameObject.activeSelf)
-		{
-			player.transform.position = spawnPoint3.position + new Vector3(0, 0, 10);
-		}
-
-		BossCharacter1.transform.position = spawnPoint2.position + new Vector3(0, 0, 10);
-		BossCharacter1.transform.rotation = Quaternion.Euler(0, 0, 180);
-		BossCharacter1.gameObject.SetActive(false);
-
-		BossCharacter2.transform.position = spawnPoint3.position + new Vector3(0, 0, 10);
-		BossCharacter2.transform.rotation = Quaternion.Euler(0, 0, 180);
-		BossCharacter2.gameObject.SetActive(false);
-
-		BossCharacter3.transform.position = spawnPoint4.position + new Vector3(0, 0, 10);
-		BossCharacter3.transform.rotation = Quaternion.Euler(0, 0, 180);
-		BossCharacter3.gameObject.SetActive(false);
-
-		bossHealthUI.DecreaseBossHealth();
-		bossHealthUI.DecreaseBossHealth();
-		bossHealthUI.DecreaseBossHealth();
-		playerHealthUI.ResetHearts();
-
-		player.SetVisible();
-		player.SetAlive();
+		StartCoroutine(LoadYourAsyncScene());
 	}
 
 	public void OnBossDeath(int number)
 	{
-		if(number == 0)
+		if (number == 0)
 		{
 			Debug.LogError("ERROR");
 		}
 
-		if(number == 1)
+		if (number == 1)
 		{
-			//Door1.SetActive(false);
-			//BossCharacter2.gameObject.SetActive(true);
-			defeatedBoss1 = true;
+			Doors[1].SetActive(false);
+			defeatedBosses[0] = true;
 		}
 
-		if (number == 2)
+		int levelNum = 0;
+		for (int i = 0; i < BossCharacters.Count; i++)
 		{
-			//Door2.SetActive(false);
-			//BossCharacter3.gameObject.SetActive(true);
-			defeatedBoss2 = true;
-			
+			if (BossCharacters[i].BossNumber == number)
+			{
+				levelNum = BossCharacters[i].LevelNumber;
+				defeatedBosses[i] = true;
+			}
 		}
 
-		if (number == 3)
+		List<int> bossesToDie = new List<int>();
+		for (int i = 0; i < BossCharacters.Count; i++)
 		{
-			text4.text = "GAME WON - 'R' TO RESET";
-			defeatedBoss3 = true;
+			if (BossCharacters[i].LevelNumber == levelNum)
+			{
+				bossesToDie.Add(i);
+			}
+		}
+
+		if(bossesToDie.Count > 1)
+		{
+			bool allDead = true;
+			for(int i = 0; i < bossesToDie.Count; i++)
+			{
+				if (!defeatedBosses[bossesToDie[i]])
+				{
+					allDead = false;
+				}
+			}
+
+			if (allDead)
+			{
+				if(levelNum == 8)
+				{
+					text4.text = "GAME WON - PRESS 'R' TO RESET";
+				} 
+				else
+				{
+					Doors[levelNum].gameObject.SetActive(false);
+				}
+				
+			}
 		}
 	}
 }

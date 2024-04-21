@@ -6,6 +6,7 @@ public class CharacterShooting : MonoBehaviour
 {
 	public Color DefaultColor;
 	public Color GotHitColor;
+	public Color TipColor;
 
 	public bool IsShootingEnabled = false;
 	public bool IsTrippleShotEnabled = false;
@@ -14,6 +15,8 @@ public class CharacterShooting : MonoBehaviour
 	public Transform firePoint2;
 	public Transform firePoint3;
 	public GameObject bulletPrefab;
+
+	public SpriteRenderer tip;
 
 	private PlayerBulletUI playerBulletUI;
 	private SpriteRenderer sprite;
@@ -45,12 +48,14 @@ public class CharacterShooting : MonoBehaviour
 			if (!player.GetGotHit() && IsShootingEnabled)
 			{
 				sprite.color = Color.Lerp(GotHitColor, DefaultColor, shootTimer / shootTime);
+				tip.color = Color.Lerp(GotHitColor, DefaultColor, shootTimer / shootTime);
 			}
 			shootTimer += Time.deltaTime;
 
 			if(shootTimer > 2.9f)
 			{
 				sprite.color = GotHitColor;
+				tip.color = GotHitColor;
 			}
 
 			if(shootTimer > shootTime)
@@ -60,10 +65,11 @@ public class CharacterShooting : MonoBehaviour
 				if (IsShootingEnabled)
 				{
 					playerBulletUI.IncreasePlayerBullets();
+					tip.color = TipColor;
 					sprite.color = DefaultColor;
 					audioManager.Play("Ping");
 
-					particleEffectManager.SpawnSqaureParticles(DefaultColor, transform.position, 4, 7, 1.0f);
+					particleEffectManager.SpawnSqaureParticles(GotHitColor, transform.position, 4, 7, 1.0f);
 				}
 			}
 		}

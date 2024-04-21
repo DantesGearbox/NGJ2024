@@ -18,7 +18,7 @@ public class ParticleBehavior : MonoBehaviour
         transform.rotation = Quaternion.Euler(transform.rotation.eulerAngles + new Vector3(0, 0, 0.5f));
 
         timer += Time.deltaTime;
-        float scale = Mathf.Lerp(0.25f, 0, timer);
+        float scale = Mathf.Lerp(0.5f, 0, timer);
         if(timer > 1) { timer = 0.0f; }
 
         transform.localScale = new Vector3(scale, scale, 1);

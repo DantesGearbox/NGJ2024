@@ -13,6 +13,7 @@ public class BossCharacter : MonoBehaviour
 	public bool DashActive = true;
 
 	public int BossNumber = 0;
+	public int LevelNumber = 0;
 
 	private SpriteRenderer sprite;
 	private Rigidbody2D rb2d;
@@ -83,6 +84,8 @@ public class BossCharacter : MonoBehaviour
 		gameController = FindObjectOfType<GameController>();
 		audioManager = FindObjectOfType<AudioManager>();
 		audioManager.Play("Explosion");
+
+		shootTimer = Random.Range(0, 2.8f);
 	}
 
 	void FixedUpdate()
@@ -97,20 +100,48 @@ public class BossCharacter : MonoBehaviour
 		{
 			if (!isMoving)
 			{
-				float x = Random.Range(0, movementWidth) - (movementWidth/2);
-				float y = Random.Range(0, movementHeight) - (movementHeight/2);
+				float x = 0;
+				float y = 0;
 
-				if(BossNumber == 1)
+				if (LevelNumber == 1)
 				{
-					y += 11f;
+					y = Random.Range(0, movementHeight) - (movementHeight / 2) + 11;
+					x = Random.Range(0, movementWidth) - (movementWidth / 2);
 				}
-				if (BossNumber == 2)
+				if (LevelNumber == 2)
 				{
-					y += 22f;
+					y = Random.Range(18.0f, 30.0f);
+					x = Random.Range(-11.0f, 11.0f);
 				}
-				if (BossNumber == 3)
+				if (LevelNumber == 3)
 				{
-					y += 33f;
+					y = Random.Range(32.0f, 45.0f);
+					x = Random.Range(-11.0f, 11.0f);
+				}
+				if (LevelNumber == 4)
+				{
+					y = Random.Range(47.0f, 55.0f);
+					x = Random.Range(-8.0f, 8.0f);
+				}
+				if (LevelNumber == 5)
+				{
+					y = Random.Range(58.0f, 67.0f);
+					x = Random.Range(-8.0f, 8.0f);
+				}
+				if (LevelNumber == 6)
+				{
+					y = Random.Range(69.0f, 78.0f);
+					x = Random.Range(-8.0f, 8.0f);
+				}
+				if (LevelNumber == 7)
+				{
+					y = Random.Range(80.0f, 93.0f);
+					x = Random.Range(-12.0f, 12.0f);
+				}
+				if (LevelNumber == 8)
+				{
+					y = Random.Range(95.0f, 115.0f);
+					x = Random.Range(-17.0f, 19.0f);
 				}
 
 				goalPosition = new Vector3(x, y, 0);
